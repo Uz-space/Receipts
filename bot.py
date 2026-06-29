@@ -1,6 +1,6 @@
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone, timedelta, timezone, timedelta
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     Application, CommandHandler, CallbackQueryHandler,
@@ -34,7 +34,8 @@ def is_admin(user_id: int) -> bool:
     return user_id in ADMIN_IDS
 
 def format_receipt(data: dict) -> str:
-    now = datetime.now().strftime("%d.%m.%Y %H:%M")
+    TASHKENT = timezone(timedelta(hours=5))
+    now = datetime.now(TASHKENT).strftime("%d.%m.%Y %H:%M")
     username = data["username"].lstrip("@")
     asset = data["asset"].upper()
     lines = (
